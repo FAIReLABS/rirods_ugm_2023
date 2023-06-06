@@ -93,28 +93,28 @@ BMI <- lm(y ~ x)
 summary(BMI)
 ```
 
-## Why iRODS?
+## Why iRODS? {.scrollable}
 
 - Describing your data with metadata tags
 - Making it findable for your peers
   
 *What was object `BMI` again?*
 
-</br>
+
 
 ```{r, eval=FALSE, echo=TRUE}
 ils(metadata = TRUE)
 ```
 
-</br>
+
 
 ```{r}
-mock_ils <- data.frame(
+mock_ils <- list(
   logical_path = "/tempZone/home/martin/BMI.rds",
-  metadata = list(data_frame(attribute = "R object", value = "body mass index", units = "lm")), 
+  metadata = list(data.frame(attribute = "R object", value = "body mass index", units = "lm")), 
   type = "data_object"
 )
-mock_ils
+rirods:::new_irods_df(mock_ils)
 ```
 
   
@@ -125,7 +125,7 @@ mock_ils
 *Comprehensive R Archive Network (CRAN)*    
 
 - The philosophy    
-  + Portablility: *Happy users across the board*
+  + Portablility: *Happy useRs across the board*
   + Stability: *Stringent requirements ensures a stable ecosystem*
 - What constitutes a good package?
   + Tested and well-documented code
