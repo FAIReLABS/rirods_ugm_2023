@@ -1,5 +1,6 @@
 ---
-title: "rirods: An R client for iRODS"
+subtitle: "rirods"
+title:  "An R client for iRODS"
 author: 
   - "Martin Schobben"
   - "Mariana Montes"
@@ -10,15 +11,116 @@ format:
     logo: "iods-ugm-logo.png" 
 ---
 
-# The R ecosystem
+# The R Ecosystem
+
+## Introduction to R
+
+```{r users, echo=FALSE, message=FALSE}
+library(rvest)
+library(readr)
+
+# number of packages
+xc <- read_html("https://www.rdocumentation.org/") |> 
+  html_nodes(".text-xl") 
+n_pkg <- html_text(xc[2]) |> 
+  parse_number()
+```
+
+- Emphasis on statistics and visualization of data
+- Used by researchers and industry
+- Open sourced, active useRs community (`r formatC( n_pkg, format="f", digits=0, big.mark=",")` packages)
+ 
+
+```{r kdnuggest, options, echo=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=8}
+# https://www.kdnuggets.com/2019/05/poll-top-data-science-machine-learning-platforms.html
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+theme_set(theme_classic(base_size = 12))
+theme_update(
+  panel.background = element_rect(fill = "transparent", colour = NA),
+  plot.background = element_rect(fill = "transparent", colour = NA)
+)
+knitr::opts_chunk$set(dev.args = list(bg = "transparent"))
+popR <- readRDS("popR.rds") 
+popR |> 
+  select(-`% change`) |> 
+  pivot_longer(-Platform) |> 
+  mutate(value = readr::parse_number(value)) |> 
+  drop_na() |> 
+  ggplot(aes(y = reorder(Platform, value), x = value, fill = name)) +
+    geom_bar(stat = "identity", position = "dodge", orientation = "y") +
+    labs(fill = "", x = "", y = "")
+``` 
+
+:::{.notes}
+- Functional programming, or is it? technically not as function don't have to pure and can have side effects
+- Data is based on a poll with 1800 participants -> which program do they use as Data Science platforms
+:::
 
 ## Why R?
 
+  - Creating reproducible workflows
+    - Scripted analysis
+    - Literate programming ("Rmarkdown" and "Quarto")
+
+*Never again wonder what method did I use to center variable "foo" in my regression model ... ?*
+
+  - But what about the data itself?
+    - Centralized, relational, tabular databases    
+
+*SQLite, MySQL, PostgreSQL, MonetDB with `DBI` package*
+    
+:::{.notes}
+  - Relational db
+  - Reformatting required
+  - What about non-relational
+  - Can we store R objects just as they are?
+:::
+
 ## Why iRODS?
 
-## A Short History of R + iRODS
+  - Freedom from strict formatting requirements
+  - Less data transformations mean higher productivity
+  
+```{r echo=TRUE}
+# height (cm)
+x <- c(151, 174, 138, 186, 128, 136, 179, 163, 152, 131)
+# weight (kg)
+y <- c(63, 81, 56, 91, 47, 57, 76, 72, 62, 48)
+# linear regression body mass index
+BMI <- lm(y ~ x) 
+summary(BMI)
+```
 
-## CRAN policies
+## Why iRODS?
+
+- Describing your data with metadata tags
+- Making it findable for your peers
+  
+*What was object `BMI` again?*
+
+</br>
+
+```{r, eval=FALSE, echo=TRUE}
+ils(metadata = TRUE)
+```
+
+</br>
+
+```{r}
+mock_ils <- data.frame(
+  logical_path = "/tempZone/home/martin/BMI.rds",
+  metadata = list(data_frame(attribute = "R object", value = "body mass index", units = "lm")), 
+  type = "data_object"
+)
+mock_ils
+```
+
+  
+# Designing an R package
+
+## CRAN Policies
 
 *Comprehensive R Archive Network (CRAN)*    
 
@@ -27,11 +129,23 @@ format:
   + Stability: *Stringent requirements ensures a stable ecosystem*
 - What constitutes a good package?
   + Tested and well-documented code
-  + R CMD check 50+ tests
+  + `R CMD check` 50+ tests
 
 ::: {.notes}
 Tested means it has to run on Linux, macOS and Windows under different versions of R.
 :::
 
-## Design
+## A Short History of R + iRODS
+
+- Old R package build on the iRODS C++ API (archived)
+- New R package build on the iRODS REST API
+
+</br>
+
+| Feature\\API    | iRODS REST   | iRODS C++   |
+|-----------------|:------------:|:-----------:|
+| **Portability** | &#x2713;     | &#x274c;    |
+| **Stability**   | &#x2713;     | &#x274c;    |
+|                 |              |             |
+
 
