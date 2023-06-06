@@ -522,24 +522,32 @@ F-statistic: 168.9 on 1 and 8 DF,  p-value: 1.164e-06</code></pre>
 </div>
 </div>
 </section>
-<section id="why-irods-1" class="slide level2">
+<section id="why-irods-1" class="slide level2 scrollable">
 <h2>Why iRODS?</h2>
 <ul>
 <li>Describing your data with metadata tags</li>
 <li>Making it findable for your peers</li>
 </ul>
 <p><em>What was object <code>BMI</code> again?</em></p>
-<p><br></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">ils</span>(<span class="at">metadata =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><br></p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>                   logical_path metadata.attribute  metadata.value
-1 /tempZone/home/martin/BMI.rds           R object body mass index
-  metadata.units        type
-1             lm data_object</code></pre>
+<pre><code>
+========
+metadata
+========
+/tempZone/home/martin/BMI.rds :
+ attribute           value units
+  R object body mass index    lm
+
+
+==========
+iRODS Zone
+==========
+                  logical_path        type
+ /tempZone/home/martin/BMI.rds data_object</code></pre>
 </div>
 </div>
 </section></section>
