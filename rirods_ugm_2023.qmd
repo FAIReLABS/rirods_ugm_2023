@@ -1,0 +1,37 @@
+---
+title: "rirods: An R client for iRODS"
+author: 
+  - "Martin Schobben"
+  - "Mariana Montes"
+  - "Christine Staiger"
+  - "Terrell Russell"
+format: 
+  revealjs:
+    logo: "iods-ugm-logo.png" 
+---
+
+# The R ecosystem
+
+## Why R?
+
+## Why iRODS?
+
+## A Short History of R + iRODS
+
+## CRAN policies
+
+*Comprehensive R Archive Network (CRAN)*    
+
+- The philosophy    
+  + Portablility: *Happy users across the board*
+  + Stability: *Stringent requirements ensures a stable ecosystem*
+- What constitutes a good package?
+  + Tested and well-documented code
+  + R CMD check 50+ tests
+
+::: {.notes}
+Tested means it has to run on Linux, macOS and Windows under different versions of R.
+:::
+
+## Design
+
