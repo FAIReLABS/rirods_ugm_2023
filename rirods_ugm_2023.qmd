@@ -7,7 +7,7 @@ author:
   - "Christine Staiger"
   - "Terrell Russell"
 format:
-  beamer: default
+  # beamer: default
   revealjs:
     logo: "iRODS-logo.png"
 bibliography: "packages.bib"
