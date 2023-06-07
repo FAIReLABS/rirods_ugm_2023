@@ -6,9 +6,10 @@ author:
   - "Mariana Montes"
   - "Christine Staiger"
   - "Terrell Russell"
-format: 
+format:
+  beamer: default
   revealjs:
-    logo: "iods-ugm-logo.png"
+    logo: "iRODS-logo.png"
 bibliography: "packages.bib"
 ---
 
@@ -218,7 +219,7 @@ Requirements:
 
 Case study:
 
-- data set on iRODS commit history
+- Data set on iRODS commit history
 - [https://github.com/FAIReLABS/iRODS4R/blob/main/posts/welcome/data/irods_repos.csv](https://github.com/FAIReLABS/iRODS4R/blob/main/posts/welcome/data/irods_repos.csv)
 
 ## References
