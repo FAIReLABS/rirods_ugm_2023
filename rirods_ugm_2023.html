@@ -97,7 +97,26 @@
     code span.va { color: #111111; } /* Variable */
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
-  </style>
+    /* CSS for citations */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+    }
+    .hanging-indent div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }  </style>
   <link rel="stylesheet" href="rirods_ugm_2023_files/libs/revealjs/dist/theme/quarto.css">
   <link href="rirods_ugm_2023_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="rirods_ugm_2023_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
@@ -430,7 +449,7 @@ Terrell Russell
 <ul>
 <li>Emphasis on statistics and visualization of data</li>
 <li>Used by researchers and industry</li>
-<li>Open sourced, active useRs community (26,608 packages)</li>
+<li>Open sourced, active useRs community (26,616 packages)</li>
 </ul>
 
 <img data-src="rirods_ugm_2023_files/figure-revealjs/kdnuggest,%20options-1.png" width="768" class="r-stretch"><aside class="notes">
@@ -611,16 +630,145 @@ iRODS Zone
 <td style="text-align: center;">✓</td>
 <td style="text-align: center;">❌</td>
 </tr>
+</tbody>
+</table>
+</section>
+<section id="global-design" class="slide level2">
+<h2>Global Design</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<ul>
+<li>Mimic iCommands</li>
+<li>User facing</li>
+<li>Modular and adaptable (e.g.&nbsp;new REST API)</li>
+</ul>
+</div><div class="column" style="width:60%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="pexels-pixabay-262488.jpg"></p>
+<figcaption>Photo from <a href="https://www.pexels.com">pexels.com</a></figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="interface" class="slide level2">
+<h2>Interface</h2>
+<table>
+<colgroup>
+<col style="width: 17%">
+<col style="width: 49%">
+<col style="width: 32%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th style="text-align: center;">R</th>
+<th style="text-align: center;">iCommands</th>
+</tr>
+</thead>
+<tbody>
 <tr class="odd">
-<td></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
+<td><strong>Authentication</strong></td>
+<td style="text-align: center;"><code>iauth</code></td>
+<td style="text-align: center;"><code>iinit</code></td>
+</tr>
+<tr class="even">
+<td><strong>Navigation</strong></td>
+<td style="text-align: center;"><code>icd</code>, <code>ils</code>, <code>ipwd</code></td>
+<td style="text-align: center;"><code>icd</code>, <code>ils</code>, <code>ipwd</code></td>
+</tr>
+<tr class="odd">
+<td><strong>Objects</strong></td>
+<td style="text-align: center;"><code>iput</code>, <code>iget</code>, <code>imkdir</code>, <code>irm</code>, <code>isaveRDS</code>, <code>ireadRDS</code></td>
+<td style="text-align: center;"><code>iput</code>, <code>iget</code>, <code>imkdir</code>, <code>irm</code></td>
+</tr>
+<tr class="even">
+<td><strong>Metadata</strong></td>
+<td style="text-align: center;"><code>imeta</code>, <code>iquery</code></td>
+<td style="text-align: center;"><code>imeta</code>, <code>iquest</code></td>
 </tr>
 </tbody>
 </table>
+</section>
+<section id="implementation" class="slide level2 smaller">
+<h2>Implementation</h2>
+<ul>
+<li>Curl in R
+<ul>
+<li>R interface to libcurl <em>curl</em> <span class="citation" data-cites="curl">(<a href="#/references" role="doc-biblioref" onclick="">Ooms 2023a</a>)</span></li>
+<li>Wrapper <em>httr2</em> <span class="citation" data-cites="httr2">(<a href="#/references" role="doc-biblioref" onclick="">Wickham 2023</a>)</span> for <em>curl</em> and <em>jsonlite</em> <span class="citation" data-cites="jsonlite">(<a href="#/references" role="doc-biblioref" onclick="">Ooms 2023b</a>)</span></li>
+</ul></li>
+<li>Development + Testing
+<ul>
+<li>iRODS demo-server
+<ul>
+<li>Terminal: <code>docker-compose up -d nginx-reverse-proxy</code></li>
+<li>R console: <code>use_irods_demo()</code></li>
+</ul></li>
+<li>Testing with mocking <em>httptest2</em> <span class="citation" data-cites="httptest2">(<a href="#/references" role="doc-biblioref" onclick="">Richardson 2022</a>)</span></li>
+<li>Automatic updates of snapshots with GitHub actions</li>
+<li><code>R CMD check</code> without internet (simulate CRAN checks)</li>
+</ul></li>
+</ul>
+</section>
+<section id="maintenance" class="slide level2">
+<h2>Maintenance</h2>
+<ul>
+<li>Source files on the iRODS GitHub organization page</li>
+<li>Website: <a href="https://irods.github.io/irods_client_library_rirods">https://irods.github.io/irods_client_library_rirods</a></li>
+<li>Maintainers
+<ul>
+<li>Martin Schobben, Vienna University of Technology, Austria</li>
+<li>Mariana Montes, KU Leuven, Belgium</li>
+</ul></li>
+</ul>
+</section>
+<section id="section" class="slide level2" data-background-iframe="https://irods.github.io/irods_client_library_rirods" data-background-interactive="true">
+<h2></h2>
+</section>
+<section id="future" class="slide level2">
+<h2>Future</h2>
+<ul>
+<li>Submitted to CRAN<br>
+<code>install.packages("rirods")</code></li>
+<li>Publication of blog post on updates “iRODS4R”</li>
+<li>Upgrade in server side buffer size REST API to several Mb</li>
+</ul>
+</section>
+<section id="demonstration" class="slide level2">
+<h2>Demonstration</h2>
+<p>Requirements:</p>
+<ul>
+<li>Remote iRODS server with iRODS C++ REST 0.9.3</li>
+<li>Demo server which requires <code>docker</code> and <code>docker-compose</code></li>
+<li><code>&gt;= R 4.1</code></li>
+</ul>
+<p>Case study:</p>
+<ul>
+<li>data set on iRODS commit history</li>
+<li><a href="https://github.com/FAIReLABS/iRODS4R/blob/main/posts/welcome/data/irods_repos.csv">https://github.com/FAIReLABS/iRODS4R/blob/main/posts/welcome/data/irods_repos.csv</a></li>
+</ul>
+</section>
+<section id="references" class="slide level2 smaller scrollable">
+<h2>References</h2>
 
 <img src="iods-ugm-logo.png" class="slide-logo r-stretch"><div class="footer footer-default">
 
+</div>
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-curl" class="csl-entry" role="listitem">
+Ooms, Jeroen. 2023a. <em>Curl: A Modern and Flexible Web Client for r</em>. <a href="https://CRAN.R-project.org/package=curl">https://CRAN.R-project.org/package=curl</a>.
+</div>
+<div id="ref-jsonlite" class="csl-entry" role="listitem">
+———. 2023b. <em>Jsonlite: A Simple and Robust JSON Parser and Generator for r</em>. <a href="https://CRAN.R-project.org/package=jsonlite">https://CRAN.R-project.org/package=jsonlite</a>.
+</div>
+<div id="ref-httptest2" class="csl-entry" role="listitem">
+Richardson, Neal. 2022. <em>Httptest2: Test Helpers for Httr2</em>. <a href="https://CRAN.R-project.org/package=httptest2">https://CRAN.R-project.org/package=httptest2</a>.
+</div>
+<div id="ref-httr2" class="csl-entry" role="listitem">
+Wickham, Hadley. 2023. <em>Httr2: Perform HTTP Requests and Process the Responses</em>. <a href="https://CRAN.R-project.org/package=httr2">https://CRAN.R-project.org/package=httr2</a>.
+</div>
 </div>
 </section></section>
     </div>
