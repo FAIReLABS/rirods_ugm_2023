@@ -8,7 +8,8 @@ author:
   - "Terrell Russell"
 format: 
   revealjs:
-    logo: "iods-ugm-logo.png" 
+    logo: "iods-ugm-logo.png"
+bibliography: "packages.bib"
 ---
 
 # The R Ecosystem
@@ -100,12 +101,9 @@ summary(BMI)
   
 *What was object `BMI` again?*
 
-
-
 ```{r, eval=FALSE, echo=TRUE}
 ils(metadata = TRUE)
 ```
-
 
 
 ```{r}
@@ -146,6 +144,81 @@ Tested means it has to run on Linux, macOS and Windows under different versions 
 |-----------------|:------------:|:-----------:|
 | **Portability** | &#x2713;     | &#x274c;    |
 | **Stability**   | &#x2713;     | &#x274c;    |
-|                 |              |             |
 
 
+## Global Design
+
+:::: {.columns}
+
+::: {.column width="40%"}
+- Mimic iCommands
+- User facing
+- Modular and adaptable (e.g. new REST API)
+:::
+
+::: {.column width="60%"}
+![Photo from [pexels.com](https://www.pexels.com)](pexels-pixabay-262488.jpg)
+:::
+
+::::
+
+## Interface
+
+|                     | R                                                        | iCommands                            |
+|---------------------|:--------------------------------------------------------:|:------------------------------------:|
+| **Authentication**  | `iauth`                                                  | `iinit`                              |
+| **Navigation**      | `icd`, `ils`, `ipwd`                                     | `icd`, `ils`, `ipwd`                 |
+| **Objects**         | `iput`, `iget`, `imkdir`, `irm`, `isaveRDS`, `ireadRDS`  | `iput`, `iget`, `imkdir`, `irm`      |
+| **Metadata**        | `imeta`, `iquery`                                        | `imeta`, `iquest`                    |
+
+
+## Implementation {.smaller}
+
+```{r label, options}
+pkgs <- c("curl", "httr2", "httptest2", "jsonlite")
+knitr::write_bib(pkgs, "packages.bib", prefix = "")
+```
+
+- Curl in R
+  + R interface to libcurl *curl* [@curl]
+  + Wrapper *httr2* [@httr2] for *curl* and *jsonlite* [@jsonlite]
+
+- Development + Testing
+  + iRODS demo-server 
+    - Terminal: `docker-compose up -d nginx-reverse-proxy` 
+    - R console: `use_irods_demo()`
+  + Testing with mocking *httptest2*  [@httptest2]
+  + Automatic updates of snapshots with GitHub actions
+  + `R CMD check` without internet (simulate CRAN checks)
+
+## Maintenance
+
+  - Source files on the iRODS GitHub organization page
+  - Website: [https://irods.github.io/irods_client_library_rirods](https://irods.github.io/irods_client_library_rirods)
+  - Maintainers
+    + Martin Schobben, Vienna University of Technology, Austria
+    + Mariana Montes, KU Leuven, Belgium
+
+## {background-iframe="https://irods.github.io/irods_client_library_rirods" background-interactive='true'}
+
+## Future
+
+- Submitted to CRAN    
+  `install.packages("rirods")`
+- Publication of blog post on updates "iRODS4R"
+- Upgrade in server side buffer size REST API to several Mb
+
+## Demonstration
+
+Requirements:
+
+- Remote iRODS server with iRODS C++ REST 0.9.3
+- Demo server which requires `docker` and `docker-compose`
+- `>= R 4.1`
+
+Case study:
+
+- data set on iRODS commit history
+- [https://github.com/FAIReLABS/iRODS4R/blob/main/posts/welcome/data/irods_repos.csv](https://github.com/FAIReLABS/iRODS4R/blob/main/posts/welcome/data/irods_repos.csv)
+
+## References
