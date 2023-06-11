@@ -449,7 +449,7 @@ Terrell Russell
 <ul>
 <li>Emphasis on statistics and visualization of data</li>
 <li>Used by researchers and industry</li>
-<li>Open sourced, active useRs community (26,616 packages)</li>
+<li>Open sourced, active useRs community (26,644 packages)</li>
 </ul>
 
 <img data-src="rirods_ugm_2023_files/figure-revealjs/kdnuggest,%20options-1.png" width="768" class="r-stretch"><aside class="notes">
@@ -512,6 +512,10 @@ Terrell Russell
 <li>Less data transformations mean higher productivity</li>
 </ul>
 <div class="cell">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>irods_ugm2023_bmi_example.R</strong></pre>
+</div>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># height (cm)</span></span>
 <span id="cb1-2"><a href="#cb1-2"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">151</span>, <span class="dv">174</span>, <span class="dv">138</span>, <span class="dv">186</span>, <span class="dv">128</span>, <span class="dv">136</span>, <span class="dv">179</span>, <span class="dv">163</span>, <span class="dv">152</span>, <span class="dv">131</span>)</span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="co"># weight (kg)</span></span>
@@ -519,6 +523,11 @@ Terrell Russell
 <span id="cb1-5"><a href="#cb1-5"></a><span class="co"># linear regression body mass index</span></span>
 <span id="cb1-6"><a href="#cb1-6"></a>BMI <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x) </span>
 <span id="cb1-7"><a href="#cb1-7"></a><span class="fu">summary</span>(BMI)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+
+</section>
+<section id="why-irods-output" class="slide level2 output-location-slide"><h2>Why iRODS?</h2><div class="cell output-location-slide" data-filename="irods_ugm2023_bmi_example.R">
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -539,17 +548,24 @@ Residual standard error: 3.253 on 8 degrees of freedom
 Multiple R-squared:  0.9548,    Adjusted R-squared:  0.9491 
 F-statistic: 168.9 on 1 and 8 DF,  p-value: 1.164e-06</code></pre>
 </div>
-</div>
-</section>
-<section id="why-irods-1" class="slide level2 scrollable">
+</div></section><section id="why-irods-1" class="slide level2">
 <h2>Why iRODS?</h2>
 <ul>
 <li>Describing your data with metadata tags</li>
 <li>Making it findable for your peers</li>
 </ul>
 <p><em>What was object <code>BMI</code> again?</em></p>
+</section>
+<section id="why-irods-2" class="slide level2">
+<h2>Why iRODS?</h2>
+<p><br></p>
 <div class="cell">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>irods_ugm2023_bmi_example.R</strong></pre>
+</div>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">ils</span>(<span class="at">metadata =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </div>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
@@ -558,8 +574,9 @@ F-statistic: 168.9 on 1 and 8 DF,  p-value: 1.164e-06</code></pre>
 metadata
 ========
 /tempZone/home/martin/BMI.rds :
- attribute           value units
-  R object body mass index    lm
+ attribute    value units
+ file_type R object   RDS
+   content  content      
 
 
 ==========
@@ -582,7 +599,7 @@ iRODS Zone
 <li>The philosophy
 <ul>
 <li>Portablility: <em>Happy useRs across the board</em></li>
-<li>Stability: <em>Stringent requirements ensures a stable ecosystem</em></li>
+<li>Stability: <em>Stringent requirements for a stable ecosystem</em></li>
 </ul></li>
 <li>What constitutes a good package?
 <ul>
@@ -636,13 +653,13 @@ iRODS Zone
 <section id="global-design" class="slide level2">
 <h2>Global Design</h2>
 <div class="columns">
-<div class="column" style="width:40%;">
+<div class="column" style="width:50%;">
 <ul>
 <li>Mimic iCommands</li>
 <li>User facing</li>
 <li>Modular and adaptable (e.g.&nbsp;new REST API)</li>
 </ul>
-</div><div class="column" style="width:60%;">
+</div><div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="pexels-pixabay-262488.jpg"></p>
@@ -654,11 +671,11 @@ iRODS Zone
 </section>
 <section id="interface" class="slide level2">
 <h2>Interface</h2>
-<table>
+<table style="width:100%;">
 <colgroup>
-<col style="width: 17%">
-<col style="width: 49%">
-<col style="width: 32%">
+<col style="width: 23%">
+<col style="width: 46%">
+<col style="width: 30%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -716,7 +733,7 @@ iRODS Zone
 <h2>Maintenance</h2>
 <ul>
 <li>Source files on the iRODS GitHub organization page</li>
-<li>Website: <a href="https://irods.github.io/irods_client_library_rirods">https://irods.github.io/irods_client_library_rirods</a></li>
+<li>Website: <a href="https://irods.github.io/irods_client_library_rirods" class="uri">https://irods.github.io/irods_client_library_rirods</a></li>
 <li>Maintainers
 <ul>
 <li>Martin Schobben, Vienna University of Technology, Austria</li>
@@ -747,7 +764,7 @@ iRODS Zone
 <p>Case study:</p>
 <ul>
 <li>Data set on iRODS commit history</li>
-<li><a href="https://github.com/FAIReLABS/iRODS4R/blob/main/posts/welcome/data/irods_repos.csv">https://github.com/FAIReLABS/iRODS4R/blob/main/posts/welcome/data/irods_repos.csv</a></li>
+<li><a href="https://github.com/FAIReLABS/iRODS4R/blob/main/posts/welcome/data/irods_repos.csv" class="uri">https://github.com/FAIReLABS/iRODS4R/blob/main/posts/welcome/data/irods_repos.csv</a></li>
 </ul>
 </section>
 <section id="references" class="slide level2 smaller scrollable">
