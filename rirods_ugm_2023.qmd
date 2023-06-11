@@ -28,10 +28,9 @@ n_pkg <- html_text(xc[2]) |>
   parse_number()
 ```
 
-- Emphasis on statistics and visualization of data
-- Used by researchers and industry
-- Open sourced, active useRs community (`r formatC( n_pkg, format="f", digits=0, big.mark=",")` packages)
- 
+-   Emphasis on statistics and visualization of data
+-   Used by researchers and industry
+-   Open sourced, active useRs community (`r formatC( n_pkg, format="f", digits=0, big.mark=",")` packages)
 
 ```{r kdnuggest, options, echo=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=8}
 # https://www.kdnuggets.com/2019/05/poll-top-data-science-machine-learning-platforms.html
@@ -53,39 +52,41 @@ popR |>
   ggplot(aes(y = reorder(Platform, value), x = value, fill = name)) +
     geom_bar(stat = "identity", position = "dodge", orientation = "y") +
     labs(fill = "", x = "", y = "")
-``` 
+```
 
-:::{.notes}
-- Functional programming, or is it? technically not as function don't have to pure and can have side effects
-- Data is based on a poll with 1800 participants -> which program do they use as Data Science platforms
+::: notes
+-   Functional programming, or is it? technically not as function don't have to pure and can have side effects
+-   Data is based on a poll with 1800 participants -\> which program do they use as Data Science platforms
 :::
 
 ## Why R?
 
-  - Creating reproducible workflows
-    - Scripted analysis
-    - Literate programming ("Rmarkdown" and "Quarto")
+-   Creating reproducible workflows
+    -   Scripted analysis
+    -   Literate programming ("Rmarkdown" and "Quarto")
 
 *Never again wonder what method did I use to center variable "foo" in my regression model ... ?*
 
-  - But what about the data itself?
-    - Centralized, relational, tabular databases    
+-   But what about the data itself?
+    -   Centralized, relational, tabular databases
 
 *SQLite, MySQL, PostgreSQL, MonetDB with `DBI` package*
-    
-:::{.notes}
-  - Relational db
-  - Reformatting required
-  - What about non-relational
-  - Can we store R objects just as they are?
+
+::: notes
+-   Relational db
+-   Reformatting required
+-   What about non-relational
+-   Can we store R objects just as they are?
 :::
 
 ## Why iRODS?
 
-  - Freedom from strict formatting requirements
-  - Less data transformations mean higher productivity
-  
-```{r echo=TRUE}
+-   Freedom from strict formatting requirements
+-   Less data transformations mean higher productivity
+
+```{r echo=TRUE, filename="irods_ugm2023_bmi_example.R"}
+#| output-location: slide
+
 # height (cm)
 x <- c(151, 174, 138, 186, 128, 136, 179, 163, 152, 131)
 # weight (kg)
@@ -95,83 +96,87 @@ BMI <- lm(y ~ x)
 summary(BMI)
 ```
 
-## Why iRODS? {.scrollable}
+## Why iRODS?
 
-- Describing your data with metadata tags
-- Making it findable for your peers
-  
+-   Describing your data with metadata tags
+-   Making it findable for your peers
+
 *What was object `BMI` again?*
 
-```{r, eval=FALSE, echo=TRUE}
+## Why iRODS?
+
+</br>
+
+```{r, eval=FALSE, echo=TRUE, filename="irods_ugm2023_bmi_example.R"}
 ils(metadata = TRUE)
 ```
-
 
 ```{r}
 mock_ils <- list(
   logical_path = "/tempZone/home/martin/BMI.rds",
-  metadata = list(data.frame(attribute = "R object", value = "body mass index", units = "lm")), 
+  metadata = list(
+    data.frame(
+      attribute = c("file_type", "content"), 
+      value = c("R object", "content"),
+      units = c("RDS", "")
+    )
+  ), 
   type = "data_object"
 )
 rirods:::new_irods_df(mock_ils)
 ```
 
-  
 # Designing an R package
 
 ## CRAN Policies
 
-*Comprehensive R Archive Network (CRAN)*    
+*Comprehensive R Archive Network (CRAN)*
 
-- The philosophy    
-  + Portablility: *Happy useRs across the board*
-  + Stability: *Stringent requirements ensures a stable ecosystem*
-- What constitutes a good package?
-  + Tested and well-documented code
-  + `R CMD check` 50+ tests
+-   The philosophy
+    -   Portablility: *Happy useRs across the board*
+    -   Stability: *Stringent requirements for a stable ecosystem*
+-   What constitutes a good package?
+    -   Tested and well-documented code
+    -   `R CMD check` 50+ tests
 
-::: {.notes}
+::: notes
 Tested means it has to run on Linux, macOS and Windows under different versions of R.
 :::
 
 ## A Short History of R + iRODS
 
-- Old R package build on the iRODS C++ API (archived)
-- New R package build on the iRODS REST API
+-   Old R package build on the iRODS C++ API (archived)
+-   New R package build on the iRODS REST API
 
 </br>
 
-| Feature\\API    | iRODS REST   | iRODS C++   |
-|-----------------|:------------:|:-----------:|
-| **Portability** | &#x2713;     | &#x274c;    |
-| **Stability**   | &#x2713;     | &#x274c;    |
-
+| Feature\\API    | iRODS REST | iRODS C++ |
+|-----------------|:----------:|:---------:|
+| **Portability** |     ✓      |    ❌     |
+| **Stability**   |     ✓      |    ❌     |
 
 ## Global Design
 
-:::: {.columns}
-
-::: {.column width="40%"}
-- Mimic iCommands
-- User facing
-- Modular and adaptable (e.g. new REST API)
+::: columns
+::: {.column width="50%"}
+-   Mimic iCommands
+-   User facing
+-   Modular and adaptable (e.g. new REST API)
 :::
 
-::: {.column width="60%"}
+::: {.column width="50%"}
 ![Photo from [pexels.com](https://www.pexels.com)](pexels-pixabay-262488.jpg)
 :::
-
-::::
+:::
 
 ## Interface
 
-|                     | R                                                        | iCommands                            |
-|---------------------|:--------------------------------------------------------:|:------------------------------------:|
-| **Authentication**  | `iauth`                                                  | `iinit`                              |
-| **Navigation**      | `icd`, `ils`, `ipwd`                                     | `icd`, `ils`, `ipwd`                 |
-| **Objects**         | `iput`, `iget`, `imkdir`, `irm`, `isaveRDS`, `ireadRDS`  | `iput`, `iget`, `imkdir`, `irm`      |
-| **Metadata**        | `imeta`, `iquery`                                        | `imeta`, `iquest`                    |
-
+|                    |                            R                            |            iCommands            |
+|-----------------|:--------------------------------:|:--------------------:|
+| **Authentication** |                         `iauth`                         |             `iinit`             |
+| **Navigation**     |                  `icd`, `ils`, `ipwd`                   |      `icd`, `ils`, `ipwd`       |
+| **Objects**        | `iput`, `iget`, `imkdir`, `irm`, `isaveRDS`, `ireadRDS` | `iput`, `iget`, `imkdir`, `irm` |
+| **Metadata**       |                    `imeta`, `iquery`                    |        `imeta`, `iquest`        |
 
 ## Implementation {.smaller}
 
@@ -180,46 +185,45 @@ pkgs <- c("curl", "httr2", "httptest2", "jsonlite")
 knitr::write_bib(pkgs, "packages.bib", prefix = "")
 ```
 
-- Curl in R
-  + R interface to libcurl *curl* [@curl]
-  + Wrapper *httr2* [@httr2] for *curl* and *jsonlite* [@jsonlite]
-
-- Development + Testing
-  + iRODS demo-server 
-    - Terminal: `docker-compose up -d nginx-reverse-proxy` 
-    - R console: `use_irods_demo()`
-  + Testing with mocking *httptest2*  [@httptest2]
-  + Automatic updates of snapshots with GitHub actions
-  + `R CMD check` without internet (simulate CRAN checks)
+-   Curl in R
+    -   R interface to libcurl *curl* [@curl]
+    -   Wrapper *httr2* [@httr2] for *curl* and *jsonlite* [@jsonlite]
+-   Development + Testing
+    -   iRODS demo-server
+        -   Terminal: `docker-compose up -d nginx-reverse-proxy`
+        -   R console: `use_irods_demo()`
+    -   Testing with mocking *httptest2* [@httptest2]
+    -   Automatic updates of snapshots with GitHub actions
+    -   `R CMD check` without internet (simulate CRAN checks)
 
 ## Maintenance
 
-  - Source files on the iRODS GitHub organization page
-  - Website: [https://irods.github.io/irods_client_library_rirods](https://irods.github.io/irods_client_library_rirods)
-  - Maintainers
-    + Martin Schobben, Vienna University of Technology, Austria
-    + Mariana Montes, KU Leuven, Belgium
+-   Source files on the iRODS GitHub organization page
+-   Website: <https://irods.github.io/irods_client_library_rirods>
+-   Maintainers
+    -   Martin Schobben, Vienna University of Technology, Austria
+    -   Mariana Montes, KU Leuven, Belgium
 
-## {background-iframe="https://irods.github.io/irods_client_library_rirods" background-interactive='true'}
+##  {background-iframe="https://irods.github.io/irods_client_library_rirods" background-interactive="true"}
 
 ## Future
 
-- Submitted to CRAN    
-  `install.packages("rirods")`
-- Publication of blog post on updates "iRODS4R"
-- Upgrade in server side buffer size REST API to several Mb
+-   Submitted to CRAN\
+    `install.packages("rirods")`
+-   Publication of blog post on updates "iRODS4R"
+-   Upgrade in server side buffer size REST API to several Mb
 
 ## Demonstration
 
 Requirements:
 
-- Remote iRODS server with iRODS C++ REST 0.9.3
-- Demo server which requires `docker` and `docker-compose`
-- `>= R 4.1`
+-   Remote iRODS server with iRODS C++ REST 0.9.3
+-   Demo server which requires `docker` and `docker-compose`
+-   `>= R 4.1`
 
 Case study:
 
-- Data set on iRODS commit history
-- [https://github.com/FAIReLABS/iRODS4R/blob/main/posts/welcome/data/irods_repos.csv](https://github.com/FAIReLABS/iRODS4R/blob/main/posts/welcome/data/irods_repos.csv)
+-   Data set on iRODS commit history
+-   <https://github.com/FAIReLABS/iRODS4R/blob/main/posts/welcome/data/irods_repos.csv>
 
 ## References
