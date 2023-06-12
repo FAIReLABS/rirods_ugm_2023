@@ -254,7 +254,7 @@ iRODS Zone
 <p>Now we can also add metadata to this object to make it more findable for myself but also others that can access these collections.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>meta <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">operation =</span> <span class="st">"add"</span>, <span class="at">attribute =</span> <span class="st">"file_type"</span>, <span class="at">value =</span> <span class="st">"R object"</span>, <span class="at">units =</span> <span class="st">"RDS"</span>)</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">imeta</span>( <span class="st">"irods_sub.rds"</span>, <span class="st">"data_object"</span>, <span class="fu">list</span>(meta))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">imeta</span>(<span class="st">"irods_sub.rds"</span>, <span class="st">"data_object"</span>, <span class="fu">list</span>(meta))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now to check this additional annotation, we use <code>ils()</code> with the metadata argument set to <code>TRUE</code>.</p>
 <div class="cell">
@@ -276,9 +276,17 @@ iRODS Zone
  /tempZone/home/rods/irods_ugm23/irods_sub.rds data_object</code></pre>
 </div>
 </div>
+<p>And retrieve the data as a new object.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>new_irods <span class="ot">&lt;-</span> <span class="fu">iget</span>(<span class="st">"irods_sub.rds"</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>new_irods</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>NULL</code></pre>
+</div>
+</div>
 <p>Let’s stop the demo.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stop_irods_demo</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stop_irods_demo</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 

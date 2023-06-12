@@ -123,10 +123,16 @@ meta <- list(operation = "add", attribute = "file_type", value = "R object", uni
 imeta("irods_sub.rds", "data_object", list(meta))
 ```
 
-Now to check this additional annotation, we use `ils()` with the metadata argument set to `TRUE`.
+Now to check this additional annotation, we use `ils()` with the `metadata` argument set to `TRUE`.
 
 ```{r show-meta}
 ils(metadata = TRUE)
+```
+
+And retrieve the data as a new object.
+
+```{r}
+ireadRDS("irods_sub.rds")
 ```
 
 Let's stop the demo.
