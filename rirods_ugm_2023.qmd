@@ -1,6 +1,6 @@
 ---
 subtitle: "rirods"
-title:  "An R client for iRODS"
+title:  "An R Client for iRODS"
 author: 
   - "Martin Schobben"
   - "Mariana Montes"
@@ -37,7 +37,7 @@ n_pkg <- html_text(xc[2]) |>
 -   Open sourced, active useRs community (`r formatC( n_pkg, format="f", digits=0, big.mark=",")` packages)
 -   Emphasis on statistics and visualization of data
 
-```{r kdnuggest, options, echo=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=8}
+```{r kdnuggest, options, echo=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=8, fig.cap="www.kdnuggets.com"}
 # https://www.kdnuggets.com/2019/05/poll-top-data-science-machine-learning-platforms.html
 library(ggplot2)
 library(tidyr)
@@ -61,8 +61,8 @@ popR |>
 
 ::: notes
 -   R is used for data science.
-  +   Data exploration
-  +   Actual inference and predictive modelling
+  +   Data exploration.
+  +   Actual inference and predictive modelling.
 -   The figure is an example of R's data visualization.
 -   Data is based on a poll with 1800 participants: 
   +   "Which program do they use as Data Science platforms?"
@@ -157,11 +157,11 @@ rirods:::new_irods_df(mock_ils)
 -   This is how this looks like in the new package for R
 :::
 
-# Designing an R package
+# Designing an R Package
 
 ::: notes
--   Now that we covered the needs for iRODS in R. 
--   Let's look at how we develop a package that can be used by all.
+-   Now that we covered the need for iRODS in R. 
+-   Let's look at how we develop a package that can be most conveniently used by R users.
 :::
 
 ## CRAN Policies
@@ -222,9 +222,9 @@ rirods:::new_irods_df(mock_ils)
 :::
 
 ::: notes
-- Let's look of the design choices that we made.
+- Let's look at some of the design choices that we made.
 - We tried to mimic the iCommands where we mainly exposed the user facing end-points.
-- We have a modular design which ensures the adaptability => for example with a new REST API 
+- We have a modular design which ensures the adaptability => for example with a new REST API. 
 :::
 
 ## Interface
@@ -268,7 +268,6 @@ knitr::write_bib(pkgs, "packages.bib", prefix = "")
 - The latter is important for CRAN checks as we would not have that.
 :::
 
-
 ## Maintenance
 
 -   Source files on the iRODS GitHub organization
@@ -278,7 +277,7 @@ knitr::write_bib(pkgs, "packages.bib", prefix = "")
 -   Website: <https://irods.github.io/irods_client_library_rirods>
 
 ::: notes
-- All source code is online on the iRODS GitHub organization 
+- All source code is online on the iRODS GitHub organization. 
 - For the foreseeable future we have two maintainers. Myself, currently at the Vienna University of Technology and Mariana Montes at the KU Leuven.
 - Let's have a quick glance at the website.
 :::
@@ -298,18 +297,17 @@ Requirements:
 
 -   Remote iRODS server with iRODS C++ REST 0.9.3
 -   Demo server which requires `docker` and `docker-compose`
--   `>= R 4.1` and `readr`, `dplyr`, and `ggplot2`.
+-   `>= R 4.1` and `readr`, and `dplyr`.
 
 Case study:
 
 -   Data set on iRODS GitHub stats
 -   <https://raw.githubusercontent.com/FAIReLABS/iRODS4R/main/posts/welcome/data/irods_repos.csv>
 
-
 ::: notes
 - I want to do a little demo now.
 - For those that want to follow or re-create, these are the requirements.
-- The data that I use is about GitHub stats of iRODS
+- The data that I use is about some GitHub stats of iRODS.
 :::
 
 ## References

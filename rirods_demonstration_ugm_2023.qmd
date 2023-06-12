@@ -87,7 +87,6 @@ For the analysis, we load some additional packages. These packages are used for 
 ```{r pkgs, message=FALSE}
 library(dplyr)
 library(readr)
-library(ggplot2)
 ```
 
 And the data from [GitHub](https://raw.githubusercontent.com/FAIReLABS/iRODS4R/main/posts/welcome/data/irods_repos.csv).
