@@ -120,7 +120,7 @@ Now we can also add metadata to this object to make it more findable for myself 
 
 ```{r meta}
 meta <- list(operation = "add", attribute = "file_type", value = "R object", units = "RDS")
-imeta( "irods_sub.rds", "data_object", list(meta))
+imeta("irods_sub.rds", "data_object", list(meta))
 ```
 
 Now to check this additional annotation, we use `ils()` with the metadata argument set to `TRUE`.
