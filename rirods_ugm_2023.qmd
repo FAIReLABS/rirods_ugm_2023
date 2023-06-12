@@ -32,7 +32,6 @@ n_pkg <- html_text(xc[2]) |>
   parse_number()
 ```
 
--   Used by researchers and industry
 -   Open sourced, active useRs community (`r formatC( n_pkg, format="f", digits=0, big.mark=",")` packages)
 -   Emphasis on statistics and visualization of data
 
@@ -225,22 +224,22 @@ rirods:::new_irods_df(mock_ils)
 -   We have a modular design which ensures the adaptability =\> for example with a new REST API.
 :::
 
-## Interface
+<!-- ## Interface -->
 
-|                    |                         rirods                          |            iCommands            |
-|-----------------|:---------------------------------:|:------------------:|
-| **Authentication** |                         `iauth`                         |             `iinit`             |
-| **Navigation**     |                  `icd`, `ils`, `ipwd`                   |      `icd`, `ils`, `ipwd`       |
-| **Objects**        | `iput`, `iget`, `imkdir`, `irm`, `isaveRDS`, `ireadRDS` | `iput`, `iget`, `imkdir`, `irm` |
-| **Metadata**       |                    `imeta`, `iquery`                    |        `imeta`, `iquest`        |
+<!-- |                    |                         rirods                          |            iCommands            | -->
+<!-- |-----------------|:---------------------------------:|:------------------:| -->
+<!-- | **Authentication** |                         `iauth`                         |             `iinit`             | -->
+<!-- | **Navigation**     |                  `icd`, `ils`, `ipwd`                   |      `icd`, `ils`, `ipwd`       | -->
+<!-- | **Objects**        | `iput`, `iget`, `imkdir`, `irm`, `isaveRDS`, `ireadRDS` | `iput`, `iget`, `imkdir`, `irm` | -->
+<!-- | **Metadata**       |                    `imeta`, `iquery`                    |        `imeta`, `iquest`        | -->
 
-::: notes
--   Let's look at the function so far in rirods.
--   One can see the similarities with the iCommands but also some changes
--   For example isaveRDS and ireadRDS which strictly deal with in memory R objects
-:::
+<!-- ::: notes -->
+<!-- -   Let's look at the function so far in rirods. -->
+<!-- -   One can see the similarities with the iCommands but also some changes -->
+<!-- -   For example isaveRDS and ireadRDS which strictly deal with in memory R objects -->
+<!-- ::: -->
 
-## Implementation {.smaller}
+## Implementation
 
 ```{r label, options}
 pkgs <- c("curl", "httr2", "httptest2", "jsonlite")
@@ -251,11 +250,8 @@ knitr::write_bib(pkgs, "packages.bib", prefix = "")
     -   R interface to libcurl *curl* [@curl]
     -   Wrapper *httr2* [@httr2] for *curl* and *jsonlite* [@jsonlite]
 -   Development + Testing
-    -   iRODS demo-server
-        -   Terminal: `docker-compose up -d nginx-reverse-proxy`
-        -   R console: `use_irods_demo()`
+    -   iRODS Docker demo-server
     -   Testing with mocking *httptest2* [@httptest2]
-    -   Automatic updates of snapshots with GitHub actions
     -   `R CMD check` without internet (simulate CRAN checks)
 
 ::: notes
@@ -284,9 +280,7 @@ knitr::write_bib(pkgs, "packages.bib", prefix = "")
 
 ## Future
 
--   Submitted to CRAN\
-    `install.packages("rirods")`
--   Publication of blog post on updates "iRODS4R"
+-   Submitted to CRAN
 -   Upgrade in server side buffer size REST API to several Mb
 
 ## Demonstration
