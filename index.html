@@ -8,7 +8,7 @@
 <link href="rirods_ugm_2023_files/libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="rirods_ugm_2023_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="rirods_ugm_2023_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.353">
+  <meta name="generator" content="quarto-1.3.361">
 
   <meta name="author" content="Martin Schobben">
   <meta name="author" content="Mariana Montes">
@@ -442,20 +442,36 @@ Terrell Russell
 <section>
 <section id="the-r-ecosystem" class="title-slide slide level1 center">
 <h1>The R Ecosystem</h1>
-
+<aside class="notes">
+<p>I will guide you now first a little through the R landscape or ecosystem, as you will, to get an understanding why we need iRODS there, and vice versa.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="introduction-to-r" class="slide level2">
 <h2>Introduction to R</h2>
 <ul>
-<li>Emphasis on statistics and visualization of data</li>
 <li>Used by researchers and industry</li>
-<li>Open sourced, active useRs community (26,644 packages)</li>
+<li>Open sourced, active useRs community (26,651 packages)</li>
+<li>Emphasis on statistics and visualization of data</li>
 </ul>
 
 <img data-src="rirods_ugm_2023_files/figure-revealjs/kdnuggest,%20options-1.png" width="768" class="r-stretch"><aside class="notes">
 <ul>
-<li>Functional programming, or is it? technically not as function don’t have to pure and can have side effects</li>
-<li>Data is based on a poll with 1800 participants -&gt; which program do they use as Data Science platforms</li>
+<li>R is used for data science.</li>
+<li>Data exploration</li>
+<li>Actual inference and predictive modelling</li>
+<li>The figure is an example of R’s data visualization.</li>
+<li>Data is based on a poll with 1800 participants:</li>
+<li>“Which program do they use as Data Science platforms?”</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -469,8 +485,8 @@ Terrell Russell
           display:block!important;
       }</style></aside>
 </section>
-<section id="why-r" class="slide level2">
-<h2>Why R?</h2>
+<section id="reproducible-workflows" class="slide level2">
+<h2>Reproducible workflows</h2>
 <ul>
 <li>Creating reproducible workflows
 <ul>
@@ -488,9 +504,10 @@ Terrell Russell
 <p><em>SQLite, MySQL, PostgreSQL, MonetDB with <code>DBI</code> package</em></p>
 <aside class="notes">
 <ul>
-<li>Relational db</li>
-<li>Reformatting required</li>
-<li>What about non-relational</li>
+<li>Arguments already given; R used for data science</li>
+<li>Important asset is reproducible workflows (scripts and literate programming) =&gt; more efficient and precise analysis</li>
+<li>Data management constrained to SQL databases (DBI), intrinsically linked to tabular formats</li>
+<li>Reformatting required!</li>
 <li>Can we store R objects just as they are?</li>
 </ul>
 <style type="text/css">
@@ -526,6 +543,27 @@ Terrell Russell
 </div>
 </div>
 
+<aside class="notes">
+<ul>
+<li>iRODS for R</li>
+<li>gave it away =&gt; iRODS would free us from the strict formatting requirements</li>
+<li>Data storage: reduce restrictions =&gt; less transformation to be able to get it in the right format =&gt; tabular format =&gt; higher productivity</li>
+<li>I exemplify this here with very simple linear regression analysis with weight depended on height in humans, or BMI.</li>
+<li>Examine output (summary) of the model on next slide =&gt; this is a fairly complex model and this is only the summary</li>
+<li>Transformations required to get it tabular</li>
+<li>Or, we have to pick and choose what we think is most convenient at that point in time</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="why-irods-output" class="slide level2 output-location-slide"><h2>Why iRODS?</h2><div class="cell output-location-slide" data-filename="irods_ugm2023_bmi_example.R">
 <div class="cell-output cell-output-stdout">
@@ -551,10 +589,27 @@ F-statistic: 168.9 on 1 and 8 DF,  p-value: 1.164e-06</code></pre>
 </div></section><section id="why-irods-1" class="slide level2">
 <h2>Why iRODS?</h2>
 <ul>
-<li>Describing your data with metadata tags</li>
+<li>Describing your data with metadata</li>
 <li>Making it findable for your peers</li>
 </ul>
 <p><em>What was object <code>BMI</code> again?</em></p>
+<aside class="notes">
+<ul>
+<li>A second major benefit will be the ability to better describe/annotate</li>
+<li>Thereby making it findable/discoverable for your future self or for others</li>
+<li>What was this object <strong>BMI</strong> again? =&gt; Let’s have a look with rirods.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="why-irods-2" class="slide level2">
 <h2>Why iRODS?</h2>
@@ -574,9 +629,9 @@ F-statistic: 168.9 on 1 and 8 DF,  p-value: 1.164e-06</code></pre>
 metadata
 ========
 /tempZone/home/martin/BMI.rds :
- attribute    value units
- file_type R object   RDS
-   content  content      
+ attribute             value units
+ file_type          R object   RDS
+   content linear regression      
 
 
 ==========
@@ -586,11 +641,41 @@ iRODS Zone
  /tempZone/home/martin/BMI.rds data_object</code></pre>
 </div>
 </div>
+<aside class="notes">
+<ul>
+<li>This is how this looks like in the new package for R</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section></section>
 <section>
 <section id="designing-an-r-package" class="title-slide slide level1 center">
 <h1>Designing an R package</h1>
-
+<aside class="notes">
+<ul>
+<li>Now that we covered the needs for iRODS in R.</li>
+<li>Let’s look at how we develop a package that can be used by all.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="cran-policies" class="slide level2">
 <h2>CRAN Policies</h2>
@@ -608,7 +693,14 @@ iRODS Zone
 </ul></li>
 </ul>
 <aside class="notes">
-<p>Tested means it has to run on Linux, macOS and Windows under different versions of R.</p>
+<ul>
+<li>For that we have to turn to the official repository for R packages =&gt; CRAN.</li>
+<li>Portability: It has to run on the major three operating systems.</li>
+<li>Stability: To ensure high quality functioning packages.</li>
+<li>Tested means it has to run on Linux, macOS and Windows under different versions of R.</li>
+<li>Documented means everything from describing arguments up to working examples for each function.</li>
+<li>Comprehensive checks ranging from documentation of function parameters, to the package structure,s and unit tests.</li>
+</ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -649,6 +741,28 @@ iRODS Zone
 </tr>
 </tbody>
 </table>
+<aside class="notes">
+<ul>
+<li>Some of you might be aware that there used to be already an R package on the iRODS GitHub organization.</li>
+<li>It did not comply with some of the previous requirements for CRAN</li>
+<li>And it was also not on CRAN</li>
+<li>It worked by using the C++ API</li>
+<li>Where we now decided for a completely different approach =&gt; using the REST API</li>
+<li>The listed pros and cons are maybe not entirely fair, but</li>
+<li>This solution is portable as it is truly distributed and can does run on the major platforms.</li>
+<li>It is stable, as it only requires minimal logic to be able to communicate over http.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="global-design" class="slide level2">
 <h2>Global Design</h2>
@@ -668,19 +782,36 @@ iRODS Zone
 </div>
 </div>
 </div>
+<aside class="notes">
+<ul>
+<li>Let’s look of the design choices that we made.</li>
+<li>We tried to mimic the iCommands where we mainly exposed the user facing end-points.</li>
+<li>We have a modular design which ensures the adaptability =&gt; for example with a new REST API</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="interface" class="slide level2">
 <h2>Interface</h2>
-<table style="width:100%;">
+<table>
 <colgroup>
-<col style="width: 23%">
-<col style="width: 46%">
+<col style="width: 18%">
+<col style="width: 51%">
 <col style="width: 30%">
 </colgroup>
 <thead>
 <tr class="header">
 <th></th>
-<th style="text-align: center;">R</th>
+<th style="text-align: center;">rirods</th>
 <th style="text-align: center;">iCommands</th>
 </tr>
 </thead>
@@ -707,6 +838,23 @@ iRODS Zone
 </tr>
 </tbody>
 </table>
+<aside class="notes">
+<ul>
+<li>Let’s look at the function so far in rirods.</li>
+<li>One can see the similarities with the iCommands but also some changes</li>
+<li>For example isaveRDS and ireadRDS which strictly deal with in memory R objects</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="implementation" class="slide level2 smaller">
 <h2>Implementation</h2>
@@ -728,18 +876,54 @@ iRODS Zone
 <li><code>R CMD check</code> without internet (simulate CRAN checks)</li>
 </ul></li>
 </ul>
+<aside class="notes">
+<ul>
+<li>Some notes on how we actually achieved this.</li>
+<li>Luckily we don’t have to start from scratch there is already a R interface to libcurl and packages dealing with JSON-R parsing</li>
+<li>For the development we could use the irods_demo Docker collections, which was rely convenient.</li>
+<li>We use a technique based on http mocking for unit testing so we can test even without having iRODS server with REST API</li>
+<li>The latter is important for CRAN checks as we would not have that.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="maintenance" class="slide level2">
 <h2>Maintenance</h2>
 <ul>
-<li>Source files on the iRODS GitHub organization page</li>
-<li>Website: <a href="https://irods.github.io/irods_client_library_rirods" class="uri">https://irods.github.io/irods_client_library_rirods</a></li>
+<li>Source files on the iRODS GitHub organization</li>
 <li>Maintainers
 <ul>
 <li>Martin Schobben, Vienna University of Technology, Austria</li>
 <li>Mariana Montes, KU Leuven, Belgium</li>
 </ul></li>
+<li>Website: <a href="https://irods.github.io/irods_client_library_rirods" class="uri">https://irods.github.io/irods_client_library_rirods</a></li>
 </ul>
+<aside class="notes">
+<ul>
+<li>All source code is online on the iRODS GitHub organization</li>
+<li>For the foreseeable future we have two maintainers. Myself, currently at the Vienna University of Technology and Mariana Montes at the KU Leuven.</li>
+<li>Let’s have a quick glance at the website.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="section" class="slide level2" data-background-iframe="https://irods.github.io/irods_client_library_rirods" data-background-interactive="true">
 <h2></h2>
@@ -759,13 +943,30 @@ iRODS Zone
 <ul>
 <li>Remote iRODS server with iRODS C++ REST 0.9.3</li>
 <li>Demo server which requires <code>docker</code> and <code>docker-compose</code></li>
-<li><code>&gt;= R 4.1</code></li>
+<li><code>&gt;= R 4.1</code> and <code>readr</code>, <code>dplyr</code>, and <code>ggplot2</code>.</li>
 </ul>
 <p>Case study:</p>
 <ul>
-<li>Data set on iRODS commit history</li>
-<li><a href="https://github.com/FAIReLABS/iRODS4R/blob/main/posts/welcome/data/irods_repos.csv" class="uri">https://github.com/FAIReLABS/iRODS4R/blob/main/posts/welcome/data/irods_repos.csv</a></li>
+<li>Data set on iRODS GitHub stats</li>
+<li><a href="https://raw.githubusercontent.com/FAIReLABS/iRODS4R/main/posts/welcome/data/irods_repos.csv" class="uri">https://raw.githubusercontent.com/FAIReLABS/iRODS4R/main/posts/welcome/data/irods_repos.csv</a></li>
 </ul>
+<aside class="notes">
+<ul>
+<li>I want to do a little demo now.</li>
+<li>For those that want to follow or re-create, these are the requirements.</li>
+<li>The data that I use is about GitHub stats of iRODS</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="references" class="slide level2 smaller scrollable">
 <h2>References</h2>
