@@ -15,6 +15,10 @@ bibliography: "packages.bib"
 
 # The R Ecosystem
 
+::: notes
+I will guide you now first a little through the R landscape or ecosystem, as you will, to get an understanding why we need iRODS there, and vice versa.
+:::
+
 ## Introduction to R
 
 ```{r users, echo=FALSE, message=FALSE}
@@ -28,9 +32,10 @@ n_pkg <- html_text(xc[2]) |>
   parse_number()
 ```
 
--   Emphasis on statistics and visualization of data
+
 -   Used by researchers and industry
 -   Open sourced, active useRs community (`r formatC( n_pkg, format="f", digits=0, big.mark=",")` packages)
+-   Emphasis on statistics and visualization of data
 
 ```{r kdnuggest, options, echo=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=8}
 # https://www.kdnuggets.com/2019/05/poll-top-data-science-machine-learning-platforms.html
@@ -55,11 +60,15 @@ popR |>
 ```
 
 ::: notes
--   Functional programming, or is it? technically not as function don't have to pure and can have side effects
--   Data is based on a poll with 1800 participants -\> which program do they use as Data Science platforms
+-   R is used for data science.
+  +   Data exploration
+  +   Actual inference and predictive modelling
+-   The figure is an example of R's data visualization.
+-   Data is based on a poll with 1800 participants: 
+  +   "Which program do they use as Data Science platforms?"
 :::
 
-## Why R?
+## Reproducible workflows
 
 -   Creating reproducible workflows
     -   Scripted analysis
@@ -73,9 +82,10 @@ popR |>
 *SQLite, MySQL, PostgreSQL, MonetDB with `DBI` package*
 
 ::: notes
--   Relational db
--   Reformatting required
--   What about non-relational
+-   Arguments already given; R used for data science
+-   Important asset is reproducible workflows (scripts and literate programming) => more efficient and precise analysis
+-   Data management constrained to SQL databases (DBI), intrinsically linked to tabular formats
+-   Reformatting required!
 -   Can we store R objects just as they are?
 :::
 
@@ -96,12 +106,29 @@ BMI <- lm(y ~ x)
 summary(BMI)
 ```
 
+::: notes
+-   iRODS for R
+-   gave it away => iRODS would free us from the strict formatting requirements
+-   Data storage: reduce restrictions => less transformation to be able to get it in the right format => tabular format => higher productivity
+-   I exemplify this here with very simple linear regression analysis with weight depended on height in humans, or BMI.
+-   Examine output (summary) of the model on next slide => this is a fairly complex model and this is only the summary
+-   Transformations required to get it tabular
+-   Or, we have to pick and choose what we think is most convenient at that point in time
+
+:::
+
 ## Why iRODS?
 
--   Describing your data with metadata tags
+-   Describing your data with metadata
 -   Making it findable for your peers
 
 *What was object `BMI` again?*
+
+::: notes
+-   A second major benefit will be the ability to better describe/annotate 
+-   Thereby making it findable/discoverable for your future self or for others 
+-   What was this object **BMI** again? => Let's have a look with rirods.
+:::
 
 ## Why iRODS?
 
@@ -117,7 +144,7 @@ mock_ils <- list(
   metadata = list(
     data.frame(
       attribute = c("file_type", "content"), 
-      value = c("R object", "content"),
+      value = c("R object", "linear regression"),
       units = c("RDS", "")
     )
   ), 
@@ -126,7 +153,16 @@ mock_ils <- list(
 rirods:::new_irods_df(mock_ils)
 ```
 
+::: notes
+-   This is how this looks like in the new package for R
+:::
+
 # Designing an R package
+
+::: notes
+-   Now that we covered the needs for iRODS in R. 
+-   Let's look at how we develop a package that can be used by all.
+:::
 
 ## CRAN Policies
 
@@ -140,7 +176,12 @@ rirods:::new_irods_df(mock_ils)
     -   `R CMD check` 50+ tests
 
 ::: notes
-Tested means it has to run on Linux, macOS and Windows under different versions of R.
+-   For that we have to turn to the official repository for R packages => CRAN.
+-   Portability: It has to run on the major three operating systems.
+-   Stability: To ensure high quality functioning packages.
+-   Tested means it has to run on Linux, macOS and Windows under different versions of R.
+-   Documented means everything from describing arguments up to working examples for each function.
+-   Comprehensive checks ranging from documentation of function parameters, to the package structure,s and unit tests.
 :::
 
 ## A Short History of R + iRODS
@@ -154,6 +195,17 @@ Tested means it has to run on Linux, macOS and Windows under different versions 
 |-----------------|:----------:|:---------:|
 | **Portability** |     ✓      |    ❌     |
 | **Stability**   |     ✓      |    ❌     |
+
+::: notes
+ - Some of you might be aware that there used to be already an R package on the iRODS GitHub organization. 
+ - It did not comply with some of the previous requirements for CRAN
+ - And it was also not on CRAN
+ - It worked by using the C++ API
+ - Where we now decided for a completely different approach => using the REST API
+ - The listed pros and cons are maybe not entirely fair, but
+  +   This solution is portable as it is truly distributed and can does run on the major platforms.
+  +   It is stable, as it only requires minimal logic to be able to communicate over http. 
+:::
 
 ## Global Design
 
@@ -169,14 +221,26 @@ Tested means it has to run on Linux, macOS and Windows under different versions 
 :::
 :::
 
+::: notes
+- Let's look of the design choices that we made.
+- We tried to mimic the iCommands where we mainly exposed the user facing end-points.
+- We have a modular design which ensures the adaptability => for example with a new REST API 
+:::
+
 ## Interface
 
-|                    |                            R                            |            iCommands            |
-|-----------------|:--------------------------------:|:--------------------:|
+|                    |                            rirods                       |            iCommands            |
+|--------------------|:-------------------------------------------------------:|:-------------------------------:|
 | **Authentication** |                         `iauth`                         |             `iinit`             |
 | **Navigation**     |                  `icd`, `ils`, `ipwd`                   |      `icd`, `ils`, `ipwd`       |
 | **Objects**        | `iput`, `iget`, `imkdir`, `irm`, `isaveRDS`, `ireadRDS` | `iput`, `iget`, `imkdir`, `irm` |
 | **Metadata**       |                    `imeta`, `iquery`                    |        `imeta`, `iquest`        |
+
+::: notes
+- Let's look at the function so far in rirods.
+- One can see the similarities with the iCommands but also some changes
+- For example isaveRDS and ireadRDS which strictly deal with in memory R objects
+:::
 
 ## Implementation {.smaller}
 
@@ -196,13 +260,28 @@ knitr::write_bib(pkgs, "packages.bib", prefix = "")
     -   Automatic updates of snapshots with GitHub actions
     -   `R CMD check` without internet (simulate CRAN checks)
 
+::: notes
+- Some notes on how we actually achieved this.
+- Luckily we don't have to start from scratch there is already a R interface to libcurl and packages dealing with JSON-R parsing
+- For the development we could use the irods_demo Docker collections, which was rely convenient.
+- We use a technique based on http mocking for unit testing so we can test even without having iRODS server with REST API
+- The latter is important for CRAN checks as we would not have that.
+:::
+
+
 ## Maintenance
 
--   Source files on the iRODS GitHub organization page
--   Website: <https://irods.github.io/irods_client_library_rirods>
+-   Source files on the iRODS GitHub organization
 -   Maintainers
     -   Martin Schobben, Vienna University of Technology, Austria
     -   Mariana Montes, KU Leuven, Belgium
+-   Website: <https://irods.github.io/irods_client_library_rirods>
+
+::: notes
+- All source code is online on the iRODS GitHub organization 
+- For the foreseeable future we have two maintainers. Myself, currently at the Vienna University of Technology and Mariana Montes at the KU Leuven.
+- Let's have a quick glance at the website.
+:::
 
 ##  {background-iframe="https://irods.github.io/irods_client_library_rirods" background-interactive="true"}
 
@@ -219,12 +298,18 @@ Requirements:
 
 -   Remote iRODS server with iRODS C++ REST 0.9.3
 -   Demo server which requires `docker` and `docker-compose`
--   `>= R 4.1`
--   Additional packages used: `readr`, `dplyr`, and `ggplot2`.
+-   `>= R 4.1` and `readr`, `dplyr`, and `ggplot2`.
 
 Case study:
 
 -   Data set on iRODS GitHub stats
 -   <https://raw.githubusercontent.com/FAIReLABS/iRODS4R/main/posts/welcome/data/irods_repos.csv>
+
+
+::: notes
+- I want to do a little demo now.
+- For those that want to follow or re-create, these are the requirements.
+- The data that I use is about GitHub stats of iRODS
+:::
 
 ## References

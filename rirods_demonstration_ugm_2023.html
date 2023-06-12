@@ -110,20 +110,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="install-and-load" class="level2">
 <h2 class="anchored" data-anchor-id="install-and-load">Install and load</h2>
+<p>For now we have to use the development version of <code>rirods</code> and clone and install from source.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"remotes"</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"irods/irods_client_library_rirods"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Desired approach would encompass the standard way of installing with <code>install.packages()</code>. This would be the case after acceptance by CRAN (or alternative repos).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("rirods")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"rirods"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Load the package as follows:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rirods)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="starting-an-irods-demonstation-server" class="level2">
 <h2 class="anchored" data-anchor-id="starting-an-irods-demonstation-server">Starting an iRODS demonstation server</h2>
-<p>For convenience the R package contains a wrapper around a stand-up for an iRODS demonstration server with REST API. This requires Docker and Docker-compose.</p>
+<p>For convenience the R package contains a wrapper around the Docker iRODS demonstration server (with REST API). This requires Docker and Docker-compose.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">use_irods_demo</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -179,9 +182,9 @@ iRODS Zone
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">icd</span>(<span class="st">"irods_ugm23"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="lets-start-and-analyses" class="level2">
-<h2 class="anchored" data-anchor-id="lets-start-and-analyses">Let’s start and analyses</h2>
-<p>So for this we load the packages as described before. These packages are used for data reading, wrangling and plotting, where the wrangling functions have often a SQL-like feel.</p>
+<section id="lets-analyse" class="level2">
+<h2 class="anchored" data-anchor-id="lets-analyse">Let’s analyse</h2>
+<p>For the analysis, we load some additional packages. These packages are used for data reading, wrangling and plotting, where the wrangling functions have an SQL-like feel.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
@@ -256,7 +259,7 @@ iRODS Zone
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>meta <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">operation =</span> <span class="st">"add"</span>, <span class="at">attribute =</span> <span class="st">"file_type"</span>, <span class="at">value =</span> <span class="st">"R object"</span>, <span class="at">units =</span> <span class="st">"RDS"</span>)</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">imeta</span>(<span class="st">"irods_sub.rds"</span>, <span class="st">"data_object"</span>, <span class="fu">list</span>(meta))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Now to check this additional annotation, we use <code>ils()</code> with the metadata argument set to <code>TRUE</code>.</p>
+<p>Now to check this additional annotation, we use <code>ils()</code> with the <code>metadata</code> argument set to <code>TRUE</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ils</span>(<span class="at">metadata =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -278,10 +281,25 @@ iRODS Zone
 </div>
 <p>And retrieve the data as a new object.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>new_irods <span class="ot">&lt;-</span> <span class="fu">iget</span>(<span class="st">"irods_sub.rds"</span>)</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>new_irods</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ireadRDS</span>(<span class="st">"irods_sub.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>NULL</code></pre>
+<pre><code># A tibble: 98 × 14
+   names owner private fork  archived created_at          fork_count open_issues
+   &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt;   &lt;lgl&gt; &lt;lgl&gt;    &lt;dttm&gt;                   &lt;dbl&gt;       &lt;dbl&gt;
+ 1 voti… irods FALSE   FALSE FALSE    2013-09-03 18:51:20          0           3
+ 2 cont… irods FALSE   FALSE FALSE    2013-10-04 01:37:03         20          14
+ 3 irods irods FALSE   FALSE FALSE    2013-11-26 18:10:18        135        1016
+ 4 libs… irods FALSE   FALSE FALSE    2013-12-19 17:18:52          1           0
+ 5 irod… irods FALSE   FALSE FALSE    2013-12-19 19:32:03         14          40
+ 6 irod… irods FALSE   FALSE FALSE    2013-12-20 14:10:25          0           1
+ 7 irod… irods FALSE   FALSE FALSE    2013-12-20 14:10:45          1          15
+ 8 irod… irods FALSE   FALSE FALSE    2014-01-07 17:33:17          1           1
+ 9 guin… irods FALSE   FALSE FALSE    2014-01-28 14:07:01          0           7
+10 scot… irods FALSE   FALSE FALSE    2014-01-28 14:24:56          1          21
+# ℹ 88 more rows
+# ℹ 6 more variables: stargazers_count &lt;dbl&gt;, watchers_count &lt;dbl&gt;,
+#   stars_url &lt;chr&gt;, contributors_url &lt;chr&gt;, commits_url &lt;chr&gt;,
+#   downloaded_at &lt;chr&gt;</code></pre>
 </div>
 </div>
 <p>Let’s stop the demo.</p>

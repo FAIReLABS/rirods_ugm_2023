@@ -11,14 +11,20 @@ format: html
 
 ## Install and load
 
+For now we have to use the development version of `rirods` and clone and install from source.
+
 ```{r install-dev, eval=FALSE}
 install.packages("remotes")
 remotes::install_github("irods/irods_client_library_rirods")
 ```
 
-```{r install-desired}
-#install.packages("rirods")
+Desired approach would encompass the standard way of installing with `install.packages()`. This would be the case after acceptance by CRAN (or alternative repos). 
+
+```{r install-desired, eval=FALSE}
+install.packages("rirods")
 ```
+
+Load the package as follows: 
 
 ```{r load}
 library(rirods)
@@ -26,7 +32,7 @@ library(rirods)
 
 ## Starting an iRODS demonstation server
 
-For convenience the R package contains a wrapper around a stand-up for an iRODS demonstration server with REST API. This requires Docker and Docker-compose.
+For convenience the R package contains a wrapper around the Docker iRODS demonstration server (with REST API). This requires Docker and Docker-compose.
 
 ```{r demo-server}
 use_irods_demo()
@@ -74,9 +80,9 @@ icd("irods_ugm23")
 ```
 
 
-## Let's start and analyses
+## Let's analyse
 
-So for this we load the packages as described before. These packages are used for data reading, wrangling and plotting, where the wrangling functions have often a SQL-like feel.
+For the analysis, we load some additional packages. These packages are used for data reading, wrangling and plotting, where the wrangling functions have an SQL-like feel.
 
 ```{r pkgs, message=FALSE}
 library(dplyr)
