@@ -70,7 +70,6 @@ popR |>
 
 -   Creating reproducible workflows
     -   Scripted analysis + (remote) Git repository
-    -   Literate programming ("Rmarkdown" and "Quarto")
 
 *Never again wonder what method did I use to center variable "foo" in my regression model ... ?*
 
