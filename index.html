@@ -459,7 +459,6 @@ Terrell Russell
 <section id="introduction-to-r" class="slide level2">
 <h2>Introduction to R</h2>
 <ul>
-<li>Used by researchers and industry</li>
 <li>Open sourced, active useRs community (26,651 packages)</li>
 <li>Emphasis on statistics and visualization of data</li>
 </ul>
@@ -799,64 +798,20 @@ iRODS Zone
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+<!-- ## Interface -->
+<!-- |                    |                         rirods                          |            iCommands            | -->
+<!-- |-----------------|:---------------------------------:|:------------------:| -->
+<!-- | **Authentication** |                         `iauth`                         |             `iinit`             | -->
+<!-- | **Navigation**     |                  `icd`, `ils`, `ipwd`                   |      `icd`, `ils`, `ipwd`       | -->
+<!-- | **Objects**        | `iput`, `iget`, `imkdir`, `irm`, `isaveRDS`, `ireadRDS` | `iput`, `iget`, `imkdir`, `irm` | -->
+<!-- | **Metadata**       |                    `imeta`, `iquery`                    |        `imeta`, `iquest`        | -->
+<!-- ::: notes -->
+<!-- -   Let's look at the function so far in rirods. -->
+<!-- -   One can see the similarities with the iCommands but also some changes -->
+<!-- -   For example isaveRDS and ireadRDS which strictly deal with in memory R objects -->
+<!-- ::: -->
 </section>
-<section id="interface" class="slide level2">
-<h2>Interface</h2>
-<table>
-<colgroup>
-<col style="width: 23%">
-<col style="width: 48%">
-<col style="width: 27%">
-</colgroup>
-<thead>
-<tr class="header">
-<th></th>
-<th style="text-align: center;">rirods</th>
-<th style="text-align: center;">iCommands</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>Authentication</strong></td>
-<td style="text-align: center;"><code>iauth</code></td>
-<td style="text-align: center;"><code>iinit</code></td>
-</tr>
-<tr class="even">
-<td><strong>Navigation</strong></td>
-<td style="text-align: center;"><code>icd</code>, <code>ils</code>, <code>ipwd</code></td>
-<td style="text-align: center;"><code>icd</code>, <code>ils</code>, <code>ipwd</code></td>
-</tr>
-<tr class="odd">
-<td><strong>Objects</strong></td>
-<td style="text-align: center;"><code>iput</code>, <code>iget</code>, <code>imkdir</code>, <code>irm</code>, <code>isaveRDS</code>, <code>ireadRDS</code></td>
-<td style="text-align: center;"><code>iput</code>, <code>iget</code>, <code>imkdir</code>, <code>irm</code></td>
-</tr>
-<tr class="even">
-<td><strong>Metadata</strong></td>
-<td style="text-align: center;"><code>imeta</code>, <code>iquery</code></td>
-<td style="text-align: center;"><code>imeta</code>, <code>iquest</code></td>
-</tr>
-</tbody>
-</table>
-<aside class="notes">
-<ul>
-<li>Let’s look at the function so far in rirods.</li>
-<li>One can see the similarities with the iCommands but also some changes</li>
-<li>For example isaveRDS and ireadRDS which strictly deal with in memory R objects</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="implementation" class="slide level2 smaller">
+<section id="implementation" class="slide level2">
 <h2>Implementation</h2>
 <ul>
 <li>Curl in R
@@ -866,13 +821,8 @@ iRODS Zone
 </ul></li>
 <li>Development + Testing
 <ul>
-<li>iRODS demo-server
-<ul>
-<li>Terminal: <code>docker-compose up -d nginx-reverse-proxy</code></li>
-<li>R console: <code>use_irods_demo()</code></li>
-</ul></li>
+<li>iRODS Docker demo-server</li>
 <li>Testing with mocking <em>httptest2</em> <span class="citation" data-cites="httptest2">(<a href="#/references" role="doc-biblioref" onclick="">Richardson 2022</a>)</span></li>
-<li>Automatic updates of snapshots with GitHub actions</li>
 <li><code>R CMD check</code> without internet (simulate CRAN checks)</li>
 </ul></li>
 </ul>
@@ -931,9 +881,7 @@ iRODS Zone
 <section id="future" class="slide level2">
 <h2>Future</h2>
 <ul>
-<li>Submitted to CRAN<br>
-<code>install.packages("rirods")</code></li>
-<li>Publication of blog post on updates “iRODS4R”</li>
+<li>Submitted to CRAN</li>
 <li>Upgrade in server side buffer size REST API to several Mb</li>
 </ul>
 </section>
