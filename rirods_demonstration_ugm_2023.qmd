@@ -14,17 +14,17 @@ format: html
 For now we have to use the development version of `rirods` and clone and install from source.
 
 ```{r install-dev, eval=FALSE}
-install.packages("remotes")
-remotes::install_github("irods/irods_client_library_rirods")
+install.packages("devtools")
+devtools::install_github("irods/irods_client_library_rirods")
 ```
 
-Desired approach would encompass the standard way of installing with `install.packages()`. This would be the case after acceptance by CRAN (or alternative repos). 
+Desired approach would encompass the standard way of installing with `install.packages()`. This would be the case after acceptance by CRAN (or alternative repos).
 
 ```{r install-desired, eval=FALSE}
 install.packages("rirods")
 ```
 
-Load the package as follows: 
+Load the package as follows:
 
 ```{r load}
 library(rirods)
@@ -78,7 +78,6 @@ Let' s move there:
 ```{r move-up}
 icd("irods_ugm23")
 ```
-
 
 ## Let's analyse
 
@@ -145,4 +144,3 @@ Let's stop the demo.
 ```{r stop-demo}
 stop_irods_demo()
 ```
-

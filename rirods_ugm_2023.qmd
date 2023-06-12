@@ -226,16 +226,25 @@ rirods:::new_irods_df(mock_ils)
 <!-- ## Interface -->
 
 <!-- |                    |                         rirods                          |            iCommands            | -->
+
 <!-- |-----------------|:---------------------------------:|:------------------:| -->
+
 <!-- | **Authentication** |                         `iauth`                         |             `iinit`             | -->
+
 <!-- | **Navigation**     |                  `icd`, `ils`, `ipwd`                   |      `icd`, `ils`, `ipwd`       | -->
+
 <!-- | **Objects**        | `iput`, `iget`, `imkdir`, `irm`, `isaveRDS`, `ireadRDS` | `iput`, `iget`, `imkdir`, `irm` | -->
+
 <!-- | **Metadata**       |                    `imeta`, `iquery`                    |        `imeta`, `iquest`        | -->
 
 <!-- ::: notes -->
+
 <!-- -   Let's look at the function so far in rirods. -->
+
 <!-- -   One can see the similarities with the iCommands but also some changes -->
+
 <!-- -   For example isaveRDS and ireadRDS which strictly deal with in memory R objects -->
+
 <!-- ::: -->
 
 ## Implementation
@@ -288,7 +297,7 @@ Requirements:
 
 -   Remote iRODS server with iRODS C++ REST 0.9.3
 -   Demo server which requires `docker` and `docker-compose`
--   `>= R 4.1` and `readr`, and `dplyr`.
+-   `>= R 4.1` and `readr`, `dplyr`, and `devtools`.
 
 Case study:
 
