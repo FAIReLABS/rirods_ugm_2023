@@ -69,7 +69,7 @@ popR |>
 ## Reproducible workflows
 
 -   Creating reproducible workflows
-    -   Scripted analysis
+    -   Scripted analysis + (remote) Git repository
     -   Literate programming ("Rmarkdown" and "Quarto")
 
 *Never again wonder what method did I use to center variable "foo" in my regression model ... ?*
@@ -117,7 +117,7 @@ summary(BMI)
 ## Why iRODS?
 
 -   Describing your data with metadata
--   Making it findable for your peers
+-   Making it findable and shareable
 
 *What was object `BMI` again?*
 
