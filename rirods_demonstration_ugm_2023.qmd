@@ -1,0 +1,137 @@
+---
+title: "An R client for iRODS"
+subtitle: "Demonstration"
+author: 
+  - "Martin Schobben"
+  - "Mariana Montes"
+  - "Christine Staiger"
+  - "Terrell Russell"
+format: html
+---
+
+## Install and load
+
+```{r install-dev, eval=FALSE}
+install.packages("remotes")
+remotes::install_github("irods/irods_client_library_rirods")
+```
+
+```{r install-desired}
+#install.packages("rirods")
+```
+
+```{r load}
+library(rirods)
+```
+
+## Starting an iRODS demonstation server
+
+For convenience the R package contains a wrapper around a stand-up for an iRODS demonstration server with REST API. This requires Docker and Docker-compose.
+
+```{r demo-server}
+use_irods_demo()
+```
+
+## Connecting and authentication
+
+The idea now is to have an iRODS project file that once can place at the project level. This is reminiscent of RStudio projects and associated RStudio project files.
+
+```{r project, eval=FALSE}
+create_irods("http://localhost/irods-rest/0.9.3", "/tempZone/home")
+```
+
+After that we are ready for authentication.
+
+```{r auth}
+iauth("rods", "rods")
+```
+
+## Starting the journey
+
+Let's first check where we landed.
+
+```{r step-1}
+ipwd()
+```
+
+What does this collection contain?
+
+```{r content}
+ils()
+```
+
+Let's make a collection, and look again.
+
+```{r mkdir}
+imkdir("irods_ugm23")
+ils()
+```
+
+Let' s move there:
+
+```{r move-up}
+icd("irods_ugm23")
+```
+
+
+## Let's start and analyses
+
+So for this we load the packages as described before. These packages are used for data reading, wrangling and plotting, where the wrangling functions have often a SQL-like feel.
+
+```{r pkgs, message=FALSE}
+library(dplyr)
+library(readr)
+library(ggplot2)
+```
+
+And the data from [GitHub](https://raw.githubusercontent.com/FAIReLABS/iRODS4R/main/posts/welcome/data/irods_repos.csv).
+
+```{r commits}
+irods_github <- read_csv("https://raw.githubusercontent.com/FAIReLABS/iRODS4R/main/posts/welcome/data/irods_repos.csv")
+irods_github
+```
+
+The first thing we might want to do is to get rid of forked and archived repos.
+
+```{r filter}
+irods_sub <- irods_github |> 
+  filter(!fork, !archived) 
+```
+
+So let's see what the median is of the number of forks for iRODS repositories.
+
+```{r median}
+median(irods_sub$fork_count)
+```
+
+Now let's save this already in R. For those familiar to R this function is closely related to `saveRDS()`.
+
+```{r save}
+isaveRDS(irods_sub, "irods_sub.rds")
+```
+
+Lets check the collections content:
+
+```{r find-data}
+ils()
+```
+
+Now we can also add metadata to this object to make it more findable for myself but also others that can access these collections.
+
+```{r meta}
+meta <- list(operation = "add", attribute = "file_type", value = "R object", units = "RDS")
+imeta( "irods_sub.rds", "data_object", list(meta))
+```
+
+Now to check this additional annotation, we use `ils()` with the metadata argument set to `TRUE`.
+
+```{r show-meta}
+ils(metadata = TRUE)
+```
+
+Let's stop the demo.
+
+```{r stop-demo}
+stop_irods_demo()
+```
+

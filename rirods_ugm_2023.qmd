@@ -220,10 +220,11 @@ Requirements:
 -   Remote iRODS server with iRODS C++ REST 0.9.3
 -   Demo server which requires `docker` and `docker-compose`
 -   `>= R 4.1`
+-   Additional packages used: `readr`, `dplyr`, and `ggplot2`.
 
 Case study:
 
--   Data set on iRODS commit history
--   <https://github.com/FAIReLABS/iRODS4R/blob/main/posts/welcome/data/irods_repos.csv>
+-   Data set on iRODS GitHub stats
+-   <https://raw.githubusercontent.com/FAIReLABS/iRODS4R/main/posts/welcome/data/irods_repos.csv>
 
 ## References
